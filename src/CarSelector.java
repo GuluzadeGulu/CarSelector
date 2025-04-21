@@ -1,31 +1,39 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CarSelector {
     public static void main(String[] args) {
-        // Создаём сканер для ввода с клавиатуры
-        try (Scanner scan = new Scanner(System.in)) {
+        Scanner scan = new Scanner(System.in);
+        String[] carBrands = {"VOLVO", "MERCEDES", "BMW", "LADA", "TOYOTA"};
 
-            // Массив с названиями автомобилей
-            String[] carBrands = {"Volvo", "Mercedes-Benz", "BMW", "Lada Vesta", "Toyota Camry"};
-
-            // Запрос у пользователя индекса
-            System.out.print("Please enter the index of a car (number between 0 and " + (carBrands.length - 1) + "): ");
-
-            // Чтение целого числа
-            int selectedIndex = scan.nextInt();
-
-            // Проверка, находится ли введённый индекс в допустимом диапазоне
-            if (selectedIndex < 0 || selectedIndex >= carBrands.length) {
-                System.out.println("Invalid input: index must be between 0 and " + (carBrands.length - 1) + ".");
-            } else {
-                // Вывод выбранного автомобиля
-                System.out.println("You selected: " + carBrands[selectedIndex]);
+        while (true) {
+            System.out.println("Enter \"e\" to exit. ");
+            for (int i = 0; i < carBrands.length; i++) {
+                System.out.println(i + " - " + carBrands[i]);
             }
+            System.out.print("\nEnter index of value (number must be between 0 and " + (carBrands.length - 1) + "): ");
+            String inputScanner = scan.nextLine().toLowerCase();
 
-        } catch (InputMismatchException e) {
-            // Обработка ситуации, когда пользователь ввёл не целое число
-            System.out.println("Error: Please enter a valid whole number (integer).");
+            try {
+                if (inputScanner.isEmpty()) {
+                    System.out.println("You entered nothing.");
+                } else if (inputScanner.equals("e")) {
+                    System.out.println("Program closed");
+                    break;
+                } else {
+                    int selectedIndex = Integer.parseInt(inputScanner);
+
+                    if (selectedIndex < 0 || selectedIndex >= carBrands.length) {
+                        System.out.println("Invalid index. Please enter a number between 0 and " + (carBrands.length - 1) + ".");
+                    } else {
+                        System.out.println("You chose: " + carBrands[selectedIndex] + ". Good choice!");
+                        break;
+                    }
+                }
+            } catch(NumberFormatException e){
+                System.out.println("Error: You must enter a whole number (integer).");
+            }
         }
+
+        scan.close();
     }
 }
